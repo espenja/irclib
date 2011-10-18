@@ -1,22 +1,22 @@
 package no.fictive.irclib.model.network;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Vector;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.log4j.Logger;
-
+import no.fictive.irclib.event.container.Event;
 import no.fictive.irclib.model.channel.Channel;
 import no.fictive.irclib.model.listener.IRCEventListener;
 import no.fictive.irclib.model.networksettings.NetworkSettings;
 import no.fictive.irclib.model.nick.Nick;
 import no.fictive.irclib.model.nick.NickHandler;
 import no.fictive.irclib.model.user.Profile;
-import no.fictive.irclib.event.container.Event;
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 	
@@ -44,7 +44,8 @@ public class Network {
 	private NetworkSettings networkSettings;
 	
 	private Logger logger = Logger.getLogger(Network.class);
-	
+    private InetAddress bindAddress;
+
 
     public Network() {
 
@@ -69,6 +70,31 @@ public class Network {
 		
 		connection = new Connection(hostname, port, profile, this, new NetworkEventHandler(this, nickHandler, profile));
 	}
+
+	/**
+	 * Creates a new Network.
+	 * @param hostname Hostname to connec to.
+	 * @param port Port to connect on.
+     * @param bindAddress Address to bind socket performing the connection
+	 * @param serveralias An alias to identify the server with.
+	 * @param profile A profile representing the user information for.
+	 */
+	public Network(String hostname, int port, InetAddress bindAddress, String serveralias, Profile profile) {
+        nickHandler = new NickHandler();
+		networkSettings = new NetworkSettings();
+
+		this.hostname = hostname;
+		this.port = port;
+        this.bindAddress = bindAddress;
+		this.serveralias = serveralias;
+		this.profile = profile;
+		this.state = State.DISCONNECTED;
+
+        if (bindAddress != null)
+            connection = new Connection(hostname, port, profile, this, new NetworkEventHandler(this, nickHandler, profile));
+        else
+		    connection = new Connection(hostname, port, bindAddress, profile, this, new NetworkEventHandler(this, nickHandler, profile));
+	}
 	
 	
 	/**
@@ -89,7 +115,10 @@ public class Network {
 	public void reconnect() {
 		connection.stopConnectionValidation();
 		disconnect();
-		connection = new Connection(hostname, port, profile, this, new NetworkEventHandler(this, nickHandler, profile));
+        if (bindAddress != null)
+            connection = new Connection(hostname, port, bindAddress, profile, this, new NetworkEventHandler(this, nickHandler, profile));
+        else
+		    connection = new Connection(hostname, port, profile, this, new NetworkEventHandler(this, nickHandler, profile));
 		connect();
 	}
 	

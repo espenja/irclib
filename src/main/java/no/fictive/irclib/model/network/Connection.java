@@ -1,19 +1,17 @@
 package no.fictive.irclib.model.network;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Random;
-
-import org.apache.log4j.Logger;
-
 import no.fictive.irclib.control.IRCBufferedWriter;
 import no.fictive.irclib.control.IRCEventHandler;
 import no.fictive.irclib.control.MessageQueue;
 import no.fictive.irclib.model.user.Profile;
+import org.apache.log4j.Logger;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.*;
+import java.util.Random;
 
 /**
  * @author Espen Jacobsson
@@ -35,6 +33,7 @@ public class Connection implements Runnable {
     private String hostname;
     private int port;
     private Profile profile;
+    private InetAddress bindToHostname;
 
 
     /**
@@ -54,6 +53,15 @@ public class Connection implements Runnable {
         this.eventHandler = new IRCEventHandler(network, profile, networkEventHandler);
     }
 
+    public Connection(String hostname, int port, InetAddress bindToHostname, Profile profile, Network network, NetworkEventHandler networkEventHandler) {
+        this.hostname = hostname;
+        this.port = port;
+        this.bindToHostname = bindToHostname;
+        this.profile = profile;
+        this.network = network;
+        this.eventHandler = new IRCEventHandler(network, profile, networkEventHandler);
+    }
+
     /**
      * Initiates a connection to the network.
      *
@@ -62,7 +70,12 @@ public class Connection implements Runnable {
      */
     public void connect() throws UnknownHostException, IOException {
         network.setState(State.CONNECTING);
-        socket = new Socket(hostname, port);
+
+        if (bindToHostname != null)
+            socket = new Socket(hostname, port, bindToHostname, 0);
+        else
+            socket = new Socket(hostname, port);
+
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         messageQueue = new MessageQueue(new IRCBufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
         running = true;

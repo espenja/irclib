@@ -1,10 +1,12 @@
 package no.fictive.irclib.control;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.Vector;
 import no.fictive.irclib.model.network.Network;
 import no.fictive.irclib.model.user.Profile;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Vector;
 
 /**
  * @author Espen Jacobsson
@@ -36,6 +38,22 @@ public class ConnectionManager {
 	 */
 	public Network requestConnection(String server, int port, String serveralias) throws UnknownHostException, IOException {
 		Network network = new Network(server, port, serveralias, profile);
+		network.connect();
+		return network;
+	}
+
+	/**
+	 * Requests a connection to an irc server.
+	 * @param server Server to connect to.
+	 * @param port Port to connect to the server with.
+     * @param bindAddress Address to bind socket to.
+	 * @param serveralias An alias to identify the server with.
+	 * @return A new {@link Network}.
+	 * @throws UnknownHostException
+	 * @throws IOException
+	 */
+	public Network requestConnection(String server, int port, InetAddress bindAddress, String serveralias) throws UnknownHostException, IOException {
+		Network network = new Network(server, port, bindAddress, serveralias, profile);
 		network.connect();
 		return network;
 	}
