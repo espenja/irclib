@@ -70,11 +70,9 @@ public class Connection implements Runnable {
      */
     public void connect() throws UnknownHostException, IOException {
         network.setState(State.CONNECTING);
-
+        socket = new Socket(hostname, port);
         if (bindToHostname != null)
             socket = new Socket(hostname, port, bindToHostname, 0);
-        else
-            socket = new Socket(hostname, port);
 
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         messageQueue = new MessageQueue(new IRCBufferedWriter(new OutputStreamWriter(socket.getOutputStream())));

@@ -90,10 +90,7 @@ public class Network {
 		this.profile = profile;
 		this.state = State.DISCONNECTED;
 
-        if (bindAddress != null)
-            connection = new Connection(hostname, port, profile, this, new NetworkEventHandler(this, nickHandler, profile));
-        else
-		    connection = new Connection(hostname, port, bindAddress, profile, this, new NetworkEventHandler(this, nickHandler, profile));
+        connection = new Connection(hostname, port, bindAddress, profile, this, new NetworkEventHandler(this, nickHandler, profile));
 	}
 	
 	
@@ -115,10 +112,7 @@ public class Network {
 	public void reconnect() {
 		connection.stopConnectionValidation();
 		disconnect();
-        if (bindAddress != null)
-            connection = new Connection(hostname, port, bindAddress, profile, this, new NetworkEventHandler(this, nickHandler, profile));
-        else
-		    connection = new Connection(hostname, port, profile, this, new NetworkEventHandler(this, nickHandler, profile));
+        connection = new Connection(hostname, port, bindAddress, profile, this, new NetworkEventHandler(this, nickHandler, profile));
 		connect();
 	}
 	
@@ -156,6 +150,22 @@ public class Network {
 	public String getHostname() {
 		return hostname;
 	}
+
+    /**
+     * Returns the {@link InetAddress} the socket is bound to.
+     * @return The {@link InetAddress} the socket is bound to.
+     */
+    public InetAddress getBindAddress() {
+        return bindAddress;
+    }
+
+    /**
+     * Sets the hostname/ip to bind socket to.
+     * @param inetAddress hostname/ip to bind socket to.
+     */
+    public void setBindAddress(InetAddress inetAddress) {
+        this.bindAddress = inetAddress;
+    }
 	
 	
 	/**
