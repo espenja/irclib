@@ -1,11 +1,12 @@
 package no.fictive.irclib.model.nick;
 
+import no.fictive.irclib.model.channel.Channel;
+
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
-import no.fictive.irclib.model.channel.Channel;
 
 /**
  * 
@@ -216,8 +217,35 @@ public class Nick {
 	public void setUserModes(Set<Character> userModes) {
 		this.userModes = userModes;
 	}
-	
-	public String toString() {
+
+    /**
+     * note about equals/hash:
+     * server is allowed to be null, and only comparing on nickname.
+     * (ident@host not really important as the nickname acts as a unique key)
+     */
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Nick)) return false;
+
+        Nick nick = (Nick) o;
+
+        if (!nickname.equals(nick.nickname)) return false;
+        if (server != null ? !server.equals(nick.server) : nick.server != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nickname.hashCode();
+        result = 31 * result + (server != null ? server.hashCode() : 0);
+        return result;
+    }
+
+    public String toString() {
 		String ret =	"nickname: " + nickname + 
 						", ident:" + ident +
 						", hostname: " + hostname +
