@@ -112,15 +112,16 @@ public class Connection implements Runnable {
      */
     public void run() {
         while (running) {
+            String line = null;
             try {
-                String line = new String(reader.readLine().getBytes(), "UTF-8");
+                line = new String(reader.readLine().getBytes(), "UTF-8");
                 network.gotResponse();
                 eventHandler.handleEvent(line);
             } catch (IOException e) {
                 logger.error("Connection broken.");
                 close();
             } catch (NullPointerException e) {
-                logger.error("Pipe empty.");
+                logger.error("Pipe empty. " + String.format("line: %s, network: %s, eventHandler: %s", line ,network,eventHandler));
                 close();
             }
         }
