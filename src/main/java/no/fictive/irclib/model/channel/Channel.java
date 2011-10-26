@@ -1,12 +1,13 @@
 package no.fictive.irclib.model.channel;
 
+import no.fictive.irclib.event.container.command.ModeEvent;
+import no.fictive.irclib.event.container.command.ModeEvent.Mode;
+import no.fictive.irclib.model.nick.Nick;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
-import no.fictive.irclib.event.container.command.ModeEvent;
-import no.fictive.irclib.event.container.command.ModeEvent.Mode;
-import no.fictive.irclib.model.nick.Nick;
 
 /**
  * 
@@ -378,4 +379,21 @@ public class Channel {
 			nicks.put(newNick, nick);
 		}
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Channel)) return false;
+
+        Channel channel = (Channel) o;
+
+        if (!channelname.equals(channel.channelname)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return channelname.hashCode();
+    }
 }
