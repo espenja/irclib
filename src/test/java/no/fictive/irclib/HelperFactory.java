@@ -9,7 +9,7 @@ import no.fictive.irclib.model.network.Network;
  *
  * @author Roy Sindre Norangshol
  */
-public class TestHelperFactory {
+public class HelperFactory {
 
     public static Network createNetwork(String networkAlias) {
         Network network = new Network();
