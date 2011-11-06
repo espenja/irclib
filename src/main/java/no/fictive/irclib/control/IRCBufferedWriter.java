@@ -31,7 +31,7 @@ public class IRCBufferedWriter extends BufferedWriter {
 			this.write(line + "\r\n");
 			flush();
 		} catch (IOException e) {
-            logger.error("Failed writing to socket", e.getCause());
+            logger.error("Failed writing to socket", e);
 		}
 	}
 }
