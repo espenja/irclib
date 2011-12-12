@@ -118,7 +118,7 @@ public class Connection implements Runnable {
                 network.gotResponse();
                 eventHandler.handleEvent(line);
             } catch (IOException e) {
-                logger.error("Connection broken.");
+                logger.error("Connection broken.", e);
                 close();
             } catch (NullPointerException e) {
                 logger.error("Pipe empty. " + String.format("line: %s, network: %s, eventHandler: %s", line ,network,eventHandler));
@@ -140,6 +140,7 @@ public class Connection implements Runnable {
             logger.error("I/O error", e.getCause());
         }
         running = false;
+        connectionValidator.stop();
     }
 
 
@@ -165,6 +166,20 @@ public class Connection implements Runnable {
      * @param line The line to write.
      */
     public void writeline(String line) {
+        if(line == null) {
+            logger.warn("Got a line containing nothing (null). Returning.");
+            return;
+        }
+
+        if(line.length() > 508) {
+            logger.warn("Message is too long (508 is max). Max characters to an IRCd is 512 characters. 4 characters are reserved for \r\n which will be placed automatically.");
+            return;
+        }
+
+        if(line.contains("\r\n") || line.contains("\n") || line.contains("\r")) {
+            logger.warn("Message contains illegal new line characters (\\n, \\r, or both). Not printing.");
+			return;
+		}
         messageQueue.writeline(line);
     }
 }
