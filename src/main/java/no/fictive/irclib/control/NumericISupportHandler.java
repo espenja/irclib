@@ -69,10 +69,10 @@ public class NumericISupportHandler {
 				handleInvex(protocol);
 			}
 			else if(equalsProtocol(protocol, "WALLCHOPS")) {
-				handleWallCHops(protocol);
+				handleWallCHops();
 			}
 			else if(equalsProtocol(protocol, "WALLVOICES")) {
-				handleWallVoices(protocol);
+				handleWallVoices();
 			}
 			else if(equalsProtocol(protocol, "STATUSMSG")) {
 				handleStatusMSG(protocol);
@@ -105,31 +105,31 @@ public class NumericISupportHandler {
 				handleSilence(protocol);
 			}
 			else if(equalsProtocol(protocol, "RFC2812")) {
-				handleRFC2812(protocol);
+				handleRFC2812();
 			}
 			else if(equalsProtocol(protocol, "PENALTY")) {
-				handlePenalty(protocol);
+				handlePenalty();
 			}
 			else if(equalsProtocol(protocol, "FNC")) {
-				handleFNC(protocol);
+				handleFNC();
 			}
 			else if(equalsProtocol(protocol, "SAFELIST")) {
-				handleSafeList(protocol);
+				handleSafeList();
 			}
 			else if(equalsProtocol(protocol, "AWAYLEN")) {
 				handleAwayLen(protocol);
 			}
 			else if(equalsProtocol(protocol, "NOQUIT")) {
-				handleNoQuit(protocol);
+				handleNoQuit();
 			}
 			else if(equalsProtocol(protocol, "USERIP")) {
-				handleUserIP(protocol);
+				handleUserIP();
 			}
 			else if(equalsProtocol(protocol, "CPRIVMSG")) {
-				handleCPrivMSG(protocol);
+				handleCPrivMSG();
 			}
 			else if(equalsProtocol(protocol, "CNOTICE")) {
-				handleCNotice(protocol);
+				handleCNotice();
 			}
 			else if(equalsProtocol(protocol, "MAXNICKLEN")) {
 				handleMaxNickLen(protocol);
@@ -138,28 +138,28 @@ public class NumericISupportHandler {
 				handleMaxTargets(protocol);
 			}
 			else if(equalsProtocol(protocol, "KNOCK")) {
-				handleKnock(protocol);
+				handleKnock();
 			}
 			else if(equalsProtocol(protocol, "VCHANS")) {
-				handleVChans(protocol);
+				handleVChans();
 			}
 			else if(equalsProtocol(protocol, "WATCH")) {
 				handleWatch(protocol);
 			}
 			else if(equalsProtocol(protocol, "WHOX")) {
-				handleWHOX(protocol);
+				handleWHOX();
 			}
 			else if(equalsProtocol(protocol, "CALLERID")) {
 				handleCallerID(protocol);
 			}
 			else if(equalsProtocol(protocol, "ACCEPT")) {
-				handleAccept(protocol);
+				handleAccept();
 			}
 			else if(equalsProtocol(protocol, "LANGUAGE")) {
 				handleLanguage(protocol);
 			}
 			else if(equalsProtocol(protocol, "NAMESX")) {
-				handleNamesX(protocol);	
+				handleNamesX();
 			}
 			else if(equalsProtocol(protocol, "MAXCHANNELLEN")) {
 				handleMaxChannelLen(protocol);
@@ -168,7 +168,7 @@ public class NumericISupportHandler {
 				handleCharSet(protocol);
 			}
 			else if(equalsProtocol(protocol, "ETRACE")) {
-				handleETrace(protocol);
+				handleETrace();
 			}
 			else if(equalsProtocol(protocol, "DEAF")) {
 				handleDeaf(protocol);
@@ -322,7 +322,7 @@ public class NumericISupportHandler {
 		settings.setDeaf(deaf);
 	}
 
-	private void handleETrace(String protocol) {
+	private void handleETrace() {
 		settings.setETrace(true);
 	}
 
@@ -347,9 +347,9 @@ public class NumericISupportHandler {
 		settings.setMaxChannelLen(maxChannelLen);
 	}
 	
-	private void handleNamesX(String protocol) {
+	private void handleNamesX() {
 		settings.setNAMESX(true);
-		network.sendToServer("PROTOCOTL NAMESX");
+		network.sendToServer("PROTOCTL NAMESX");
 	}
 
 	private void handleLanguage(String protocol) {
@@ -363,7 +363,7 @@ public class NumericISupportHandler {
 		settings.setLanguage(language);
 	}
 
-	private void handleAccept(String protocol) {
+	private void handleAccept() {
 		settings.setAccept(true);
 	}
 
@@ -378,7 +378,7 @@ public class NumericISupportHandler {
 		settings.setCallerID(callerID);
 	}
 
-	private void handleWHOX(String protocol) {
+	private void handleWHOX() {
 		settings.setWHOX(true);
 	}
 
@@ -393,11 +393,11 @@ public class NumericISupportHandler {
 		settings.setWatch(watch);
 	}
 
-	private void handleVChans(String protocol) {
+	private void handleVChans() {
 		settings.setVChans(true);
 	}
 
-	private void handleKnock(String protocol) {
+	private void handleKnock() {
 		settings.setKnock(true);
 	}
 
@@ -423,19 +423,19 @@ public class NumericISupportHandler {
 		settings.setMaxNickLen(maxNickLen);
 	}
 
-	private void handleCNotice(String protocol) {
+	private void handleCNotice() {
 		settings.setCNotice(true);
 	}
 
-	private void handleCPrivMSG(String protocol) {
+	private void handleCPrivMSG() {
 		settings.setCPrivMSG(true);
 	}
 
-	private void handleUserIP(String protocol) {
+	private void handleUserIP() {
 		settings.setUserIP(true);
 	}
 
-	private void handleNoQuit(String protocol) {
+	private void handleNoQuit() {
 		settings.setNoQuit(true);
 	}
 
@@ -450,19 +450,19 @@ public class NumericISupportHandler {
 		settings.setAwayLen(awayLen);
 	}
 
-	private void handleSafeList(String protocol) {
+	private void handleSafeList() {
 		settings.setSafeList(true);
 	}
 
-	private void handleFNC(String protocol) {
+	private void handleFNC() {
 		settings.setFNC(true);
 	}
 
-	private void handlePenalty(String protocol) {
+	private void handlePenalty() {
 		settings.setPenalty(true);
 	}
 
-	private void handleRFC2812(String protocol) {
+	private void handleRFC2812() {
 		settings.setRFC2812(true);
 		
 	}
@@ -594,11 +594,11 @@ public class NumericISupportHandler {
 		settings.setStatusMSG(prefix);
 	}
 
-	private void handleWallVoices(String protocol) {
+	private void handleWallVoices() {
 		settings.setWallVoices(true);
 	}
 
-	private void handleWallCHops(String protocol) {
+	private void handleWallCHops() {
 		settings.setWallCHops(true);
 	}
 
