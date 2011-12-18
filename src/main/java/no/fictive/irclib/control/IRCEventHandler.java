@@ -35,7 +35,6 @@ public class IRCEventHandler {
 	 * @param network A {@link Network}
 	 * @param profile A {@link Profile}
 	 * @param networkEventHandler A {@link NetworkEventHandler}
-	 * @param numericHandler A {@link NumericHandler}
 	 */
 	public IRCEventHandler(Network network, Profile profile, NetworkEventHandler networkEventHandler) {
 		this.network = network;

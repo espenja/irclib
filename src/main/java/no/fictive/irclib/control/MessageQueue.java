@@ -67,10 +67,6 @@ public class MessageQueue extends Thread {
 	 * @param message Line to write.
 	 */
 	public synchronized void writeline(String message) {
-		if(message.contains("\r\n") || message.contains("\n") || message.contains("\r")) {
-            logger.warn("MESSAGE CONTAINS ILLEGAL NEW-LINE CHARACTERS. NOT PRINTING.");
-			return;
-		}
 		messageQueue.offer(message);
 		hasMessage = true;
 	}
