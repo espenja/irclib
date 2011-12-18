@@ -108,6 +108,10 @@ public class Network {
             logger.error("I/O error", e.getCause());
 		}
 	}
+
+    public void tryAlternativeInformation() {
+        connection.sendAlternativeUserInfo();
+    }
 	
 	public void reconnect() {
 		connection.stopConnectionValidation();

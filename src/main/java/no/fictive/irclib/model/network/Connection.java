@@ -29,6 +29,7 @@ public class Connection implements Runnable {
     private Logger logger = Logger.getLogger(Connection.class);
 
     private boolean running = false;
+    private boolean triedAltInfo = false;
 
     private String hostname;
     private int port;
@@ -95,16 +96,44 @@ public class Connection implements Runnable {
         messageQueue.writeline("USER " + profile.getNickname() + " 0 * :" + profile.getRealname());
     }
 
+    /**
+     * Sends initial info the the server, using the alternative nickname if there is one.
+     */
+    public void sendAlternativeUserInfo() {
+        if (!profile.getAlternativeNickname().isEmpty()) {
+            if (triedAltInfo) {
+                logger.error(String.format("All nicknames are in use. Terminating connection for %s.", network.getServerAlias()));
+                disconnect();
+            }
+            else {
+                triedAltInfo = true;
+                messageQueue.writeline("CAP LS");
+                messageQueue.writeline("NICK " + profile.getAlternativeNickname());
+                messageQueue.writeline("USER " + profile.getAlternativeNickname() + " 0 * :" + profile.getRealname());
+            }
+        }
+        else {
+            logger.error(String.format("Nickname in use, and no alternative nickname given. Terminating connection for %s.", network.getServerAlias()));
+            disconnect();
+        }
+    }
+
 
     /**
      * Disconnects from the network the good way, sending a QUIT-message.
      */
-    public void disconnect() {
+    public synchronized void disconnect() {
         if (profile.getQuitMessage() == null)
             messageQueue.writeline("QUIT");
         else
             messageQueue.writeline("QUIT :" + profile.getQuitMessage());
-        stop();
+
+        try {
+            this.wait(5000);
+            stop();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
