@@ -175,9 +175,9 @@ public class IRCEventHandler {
 	 */
 	private void handleKick(IRCEventPacket packet) {
 		KickEvent kickEvent = new KickEvent(packet, network);
-		network.fireEvent(kickEvent);
 		networkEventHandler.handleKick(kickEvent);
-	}
+        network.fireEvent(kickEvent);
+    }
 	
 	
 	/**
@@ -186,9 +186,9 @@ public class IRCEventHandler {
 	 */
 	private void handleKill(IRCEventPacket packet) {
 		KillEvent killEvent = new KillEvent(packet, network);
-		network.fireEvent(killEvent);
 		networkEventHandler.handleKill(killEvent);
-	}
+        network.fireEvent(killEvent);
+    }
 	
 	
 	/**
@@ -229,9 +229,9 @@ public class IRCEventHandler {
 	 */
 	private void handlePart(IRCEventPacket packet) {
 		PartEvent partEvent = new PartEvent(packet, network);
-		network.fireEvent(partEvent);
 		networkEventHandler.handlePart(partEvent);
-	}
+        network.fireEvent(partEvent);
+    }
 	
 	
 	/**
@@ -240,9 +240,9 @@ public class IRCEventHandler {
 	 */
 	private void handleQuit(IRCEventPacket packet) {
 		QuitEvent quitEvent = new QuitEvent(packet, network);
-		network.fireEvent(quitEvent);
 		networkEventHandler.handleQuit(quitEvent);
-	}
+        network.fireEvent(quitEvent);
+    }
 	
 	
 	/**
