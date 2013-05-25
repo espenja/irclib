@@ -76,7 +76,7 @@ public class Connection implements Runnable {
             socket = new Socket(hostname, port, bindToHostname, 0);
 
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        messageQueue = new MessageQueue(new IRCBufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
+        messageQueue = new MessageQueue(new IRCBufferedWriter(new OutputStreamWriter(socket.getOutputStream()), network));
         running = true;
         Random random = new Random();
         Thread thread = new Thread(this);
