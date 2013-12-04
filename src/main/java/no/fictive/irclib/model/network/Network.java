@@ -221,7 +221,6 @@ public class Network {
 	 */
 	public void gotResponse() {
 		lastResponse = System.currentTimeMillis();
-		state = State.CONNECTED;
 	}
 	
 	

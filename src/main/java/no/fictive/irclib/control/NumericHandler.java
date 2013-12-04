@@ -62,7 +62,9 @@ public class NumericHandler {
 				network.fireEvent(new ConnectEvent(network));
 				break;
             case 433:
-                network.tryAlternativeInformation();
+                if (network.getState() == State.CONNECTING) {
+                    network.tryAlternativeInformation();
+                }
                 network.fireEvent(numericEvent);
                 break;
 			default:
