@@ -10,7 +10,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Random;
 
 /**
@@ -76,7 +78,7 @@ public class Connection implements Runnable {
             socket = new Socket(hostname, port, bindToHostname, 0);
 
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        messageQueue = new MessageQueue(new IRCBufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
+        messageQueue = new MessageQueue(new IRCBufferedWriter(new OutputStreamWriter(socket.getOutputStream()), network));
         running = true;
         Random random = new Random();
         Thread thread = new Thread(this);
@@ -102,8 +104,9 @@ public class Connection implements Runnable {
     public void sendAlternativeUserInfo() {
         if (!profile.getAlternativeNickname().isEmpty()) {
             if (triedAltInfo) {
-                logger.error(String.format("All nicknames are in use. Terminating connection for %s.", network.getServerAlias()));
-                disconnect();
+                sendAlternativeRandomUserInfo();
+                //logger.error(String.format("All nicknames are in use. Terminating connection for %s.", network.getServerAlias()));
+                //disconnect();
             }
             else {
                 triedAltInfo = true;
@@ -113,9 +116,20 @@ public class Connection implements Runnable {
             }
         }
         else {
-            logger.error(String.format("Nickname in use, and no alternative nickname given. Terminating connection for %s.", network.getServerAlias()));
-            disconnect();
+            sendAlternativeRandomUserInfo();
+            //logger.error(String.format("Nickname in use, and no alternative nickname given. Terminating connection for %s.", network.getServerAlias()));
+            //disconnect();
         }
+    }
+
+    private void sendAlternativeRandomUserInfo() {
+
+        Random random = new Random();
+        String randomNick = profile.getNickname() + random.nextInt(2000);
+
+        messageQueue.writeline("CAP LS");
+        messageQueue.writeline("NICK " + randomNick);
+        messageQueue.writeline("USER " + randomNick + " 0 * :" + profile.getRealname());
     }
 
 
