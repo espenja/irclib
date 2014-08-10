@@ -164,7 +164,7 @@ public class Connection implements Runnable {
                 logger.error("Connection broken.", e);
                 close();
             } catch (NullPointerException e) {
-                logger.warn("Received emtpy line from server.", e);
+
             }
         }
         close();
