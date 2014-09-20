@@ -96,6 +96,7 @@ public class Connection implements Runnable {
         messageQueue.writeline("CAP LS");
         messageQueue.writeline("NICK " + profile.getNickname());
         messageQueue.writeline("USER " + profile.getNickname() + " 0 * :" + profile.getRealname());
+        network.getProfile().setCurrentNickname(profile.getNickname());
     }
 
     /**
@@ -113,6 +114,7 @@ public class Connection implements Runnable {
                 messageQueue.writeline("CAP LS");
                 messageQueue.writeline("NICK " + profile.getAlternativeNickname());
                 messageQueue.writeline("USER " + profile.getAlternativeNickname() + " 0 * :" + profile.getRealname());
+                network.getProfile().setCurrentNickname(profile.getAlternativeNickname());
             }
         }
         else {
@@ -130,6 +132,7 @@ public class Connection implements Runnable {
         messageQueue.writeline("CAP LS");
         messageQueue.writeline("NICK " + randomNick);
         messageQueue.writeline("USER " + randomNick + " 0 * :" + profile.getRealname());
+        network.getProfile().setCurrentNickname(randomNick);
     }
 
 

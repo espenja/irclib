@@ -208,6 +208,9 @@ public class IRCEventHandler {
 	 */
 	private void handleNick(IRCEventPacket packet) {
 		NickEvent nickEvent = new NickEvent(packet, network);
+        if (nickEvent.getOldNick().equals(network.getProfile().getCurrentNickname())) {
+            network.getProfile().setCurrentNickname(nickEvent.getNewNick());
+        }
 		networkEventHandler.handleNickChange(nickEvent);
 		network.fireEvent(nickEvent);
 	}

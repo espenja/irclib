@@ -13,6 +13,7 @@ public class Profile {
 	
 	private String nickname = "";
 	private String nickname_alternative;
+    private String currentNickname = "";
 	private String realname;
 	private String ident = "";
 	private String email;
@@ -53,8 +54,15 @@ public class Profile {
 		this.nickname_alternative = alternative_nickname;
 	}
 
-	
-	public String getRealname() {
+    public String getCurrentNickname() {
+        return currentNickname;
+    }
+
+    public void setCurrentNickname(String currentNickname) {
+        this.currentNickname = currentNickname;
+    }
+
+    public String getRealname() {
 		return realname;
 	}
 
