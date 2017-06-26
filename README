@@ -1,4 +1,4 @@
 Implementation of RFC 1459.
 Event based client library for creating IRC bots or clients.
 
-See https://github.com/dotKom/OnlineGuru for imlementation of a Bot on top of this library.
+See https://github.com/dotKom/OnlineGuru for implementation of a Bot on top of this library.
